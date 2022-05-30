@@ -1,6 +1,11 @@
 API node com TypeScript
 Express
 
+como baixar:
+1   git clone git@github.com:GUIHUFF/projetoLPW-backend.git
+
+2   git checkout -b developer origin/developer
+
 Para rodar no desenvolvimento
 Docker:
     docker-compose up
@@ -21,7 +26,8 @@ Só o banco no docker:
 
 sem docker:
     api: yarn dev
-    
+
+
     link da coneção com o banco no docker:
     mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}
     DB_HOST = localhost

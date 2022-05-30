@@ -4,10 +4,16 @@ import cors from 'cors';
 import 'dotenv/config';
 
 import { router } from './routes';
+import connectDB from './database';
 
+
+// configuração do express
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+//conect com db
+connectDB();
 
 app.use(router);
 
@@ -24,5 +30,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction)=>{
     message: 'Internal Server Error'
   })
 });
+
+app.get('/', (req: Request, res: Response) => {
+  res.json({ message: 'not request'});
+})
 
 app.listen(process.env.API_PORT || 1333, () => console.log('Server Online'));

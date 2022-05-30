@@ -1,0 +1,48 @@
+version: '3.1'
+
+services:
+  mongoDB:
+    image: mongo:4.2
+    container_name: mongoDB
+    restart: always
+    ports:
+      - ${DB_PORT_LOCAL}:27017
+    networks:
+      - rede
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+  
+  api:
+    build: .
+    container_name: api
+    restart: always
+    env_file:
+      - .env
+    depends_on: 
+      - mongoDB
+    links:
+      - mongoDB
+    ports:
+      - ${API_PORT}:${API_PORT}
+    networks:
+      - rede
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    command: yarn dev
+
+networks:
+  rede:
+    driver: bridge
+  # mongodb:
+  #     image: mongo:4.2
+  #     container_name: mongodb
+  #     restart: always
+  #     ports:
+  #       - ${DB_PORT_LOCAL}:27017
+  #     environment:
+  #       MONGO_INITDB_DATABASE: ${DB_NAME}
+  #       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+  #       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}

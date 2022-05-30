@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3'
 
 services:
   mongoDB:
@@ -8,7 +8,9 @@ services:
     ports:
       - ${DB_PORT_LOCAL}:27017
     networks:
-      - rede
+      - redeapi
+    volumes:
+      - ./data/db:/var/lib/mongodb
     environment:
       MONGO_INITDB_DATABASE: ${DB_NAME}
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
@@ -27,15 +29,20 @@ services:
     ports:
       - ${API_PORT}:${API_PORT}
     networks:
-      - rede
+      - redeapi
     volumes:
       - .:/usr/src/app
     working_dir: /usr/src/app
     command: yarn dev
 
 networks:
-  rede:
+  redeapi:
     driver: bridge
+    
+#SOMENTE O MONGO
+# version: '3'
+
+# services:
   # mongodb:
   #     image: mongo:4.2
   #     container_name: mongodb

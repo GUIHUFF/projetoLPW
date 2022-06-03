@@ -15,6 +15,11 @@ services:
       MONGO_INITDB_DATABASE: ${DB_NAME}
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "2"
   
   api:
     build: .
@@ -34,6 +39,11 @@ services:
       - .:/usr/src/app
     working_dir: /usr/src/app
     command: yarn dev
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "2"
 
 networks:
   redeapi:

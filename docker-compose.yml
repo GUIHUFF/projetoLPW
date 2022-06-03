@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mongoDB:
-    image: mongo:4.2
+    image: mongo:5.0
     container_name: mongoDB
     restart: always
     ports:
@@ -10,7 +10,7 @@ services:
     networks:
       - redeapi
     volumes:
-      - ./data/db:/var/lib/mongodb
+      - mongodata:/data/db
     environment:
       MONGO_INITDB_DATABASE: ${DB_NAME}
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
@@ -38,6 +38,9 @@ services:
 networks:
   redeapi:
     driver: bridge
+
+volumes:
+  mongodata:
     
 #SOMENTE O MONGO
 # version: '3'
@@ -49,7 +52,12 @@ networks:
   #     restart: always
   #     ports:
   #       - ${DB_PORT_LOCAL}:27017
+  #     volumes:
+  #       - mongodata:/data/db
   #     environment:
   #       MONGO_INITDB_DATABASE: ${DB_NAME}
   #       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
   #       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+
+# volumes:
+#   mongodata:

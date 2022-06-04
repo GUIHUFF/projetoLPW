@@ -29,7 +29,7 @@ export const getUserById = async (req: Request, res: Response ) => {
   }
 }
 
-export const registerUser = async (req: Request, res: Response ) => {
+export const createUser = async (req: Request, res: Response ) => {
   const { name, email, password, isAdmin, active } = req.body;
   if(!name && !email && !password && !isAdmin && !active) {
     return {status: 442, info: {message: 'Campos faltantes'}}

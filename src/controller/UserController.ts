@@ -1,5 +1,15 @@
 import User from "../model/User";
 import { Request, Response, json } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import 'dotenv';
+
+const generateToken = (params = {}) => {
+  console.log(params);
+  return jwt.sign(params, `${process.env.DEV_HASH}`, {
+    expiresIn: 86400
+  });
+}
 
 export const getUser = async (req: Request, res: Response ) => {
   try{
@@ -20,9 +30,8 @@ export const getUserById = async (req: Request, res: Response ) => {
   }
 }
 
-export const setNewUser = async (req: Request, res: Response ) => {
+export const registerUser = async (req: Request, res: Response ) => {
   const { name, email, password, access, active } = req.body;
-  
   if(!name && !email && !password && !access && !active) {
     return {status: 442, info: {message: 'Campos faltantes'}}
   }
@@ -36,8 +45,12 @@ export const setNewUser = async (req: Request, res: Response ) => {
   }
 
   try{
-    await User.create(user);
-    return {status: 201, info: {message: 'User inserido'} }
+    const userRegist = await User.create(user);
+    return {status: 200, info: 
+      {
+        user,
+        token: generateToken({id: userRegist.id, access: userRegist.access})
+      }}
   }catch(err){
     return {status: 500, info: err }
   }
@@ -68,10 +81,11 @@ export const updateUser = async (req: Request, res: Response ) => {
 
 export const deleteUser = async (req: Request, res: Response ) => {
   const id = req.params.id;
+  
   try{
     const user = await User.findOne({_id: id});
     if(!user) {
-      return {status: 404, info: {mesage: 'User not found!'} }
+      return {status: 404, info: {mesage: 'User not found!'}}
     }
   }catch(err){
     return {status: 500, info: err }
@@ -82,4 +96,30 @@ export const deleteUser = async (req: Request, res: Response ) => {
   }catch(err){
     return {status: 500, info: err}
   }
+}
+//função de autenticação, vai gerar um token
+export const authenticateUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try{
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+      return {status: 400, info: { mesage: 'User not found!'}}
+    }
+    if (!user.active) {
+      return {status: 400, info: { mesage: 'User desactive!'}}
+    }
+    if (!await bcrypt.compare(password, user.password)) {
+      return {status: 400, info: { mesage: 'Invalid Password!'}}
+    }
+    user.password = undefined;
+
+    return {status: 200, info: 
+      {
+        user,
+        token: generateToken({id: user.id, access: user.access})
+      }}
+ }catch(err){
+  return {status: 500, info: err}
+ }
+
 }

@@ -30,7 +30,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction)=>{
 });
 
 app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'not request'});
+  res.json({ message: 'not request found'});
 })
 
 app.use(router);

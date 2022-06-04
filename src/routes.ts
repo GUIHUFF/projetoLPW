@@ -1,23 +1,25 @@
 import { Router, Request, Response, json } from 'express';
 import 'dotenv/config';
-import User from './model/User';
-import { deleteUser, getUser, getUserById, setNewUser, updateUser } from './controller/UserController';
+import { deleteUser, getUser, getUserById, registerUser, updateUser, authenticateUser } from './controller/UserController';
+import auth from './auth';
 
 const router = Router();
 
-router.post('/user', async (req: Request, res: Response) => {
+router.post('/authenticate', async (req: Request, res: Response) => {
   try{
-    const resposta = await setNewUser(req, res);
-    res.status(resposta.status).json( resposta.info );
+    const resposta = await authenticateUser(req, res);
+    res.status(resposta.status).json(resposta.info );
   }catch(err){
       res.status(500).json({ erro: err });
   }
 });
 
+router.use(auth);
+
 router.get('/user', async (req: Request, res: Response) => {
   try{
     const resposta = await getUser(req, res);
-    res.status(resposta.status).json( resposta.info );
+    res.status(resposta.status).json( resposta.info);
   }catch(err){
       res.status(500).json({ erro: err });
   }
@@ -26,6 +28,15 @@ router.get('/user', async (req: Request, res: Response) => {
 router.get('/user/:id', async (req: Request, res: Response) => {
   try{
     const resposta = await getUserById(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.post('/user', async (req: Request, res: Response) => {
+  try{
+    const resposta = await registerUser(req, res);
     res.status(resposta.status).json( resposta.info );
   }catch(err){
       res.status(500).json({ erro: err });
@@ -49,5 +60,7 @@ router.delete('/user/:id', async (req: Request, res: Response) => {
       res.status(500).json({ erro: err });
   }
 });
+
+
 
 export { router };

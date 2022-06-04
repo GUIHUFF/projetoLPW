@@ -14,8 +14,6 @@ router.post('/authenticate', async (req: Request, res: Response) => {
   }
 });
 
-router.use(auth);
-
 router.get('/user', async (req: Request, res: Response) => {
   try{
     const resposta = await getUser(req, res);
@@ -34,7 +32,7 @@ router.get('/user/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/user', async (req: Request, res: Response) => {
+router.post('/user', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await registerUser(req, res);
     res.status(resposta.status).json( resposta.info );
@@ -43,7 +41,7 @@ router.post('/user', async (req: Request, res: Response) => {
   }
 });
 
-router.patch('/user/:id', async (req: Request, res: Response) => {
+router.patch('/user/:id', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await updateUser(req, res);
     res.status(resposta.status).json( resposta.info );
@@ -52,7 +50,7 @@ router.patch('/user/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/user/:id', async (req: Request, res: Response) => {
+router.delete('/user/:id', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await deleteUser(req, res);
     res.status(resposta.status).json( resposta.info );

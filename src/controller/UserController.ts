@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 import 'dotenv';
 
 const generateToken = (params = {}) => {
-  console.log(params);
   return jwt.sign(params, `${process.env.DEV_HASH}`, {
     expiresIn: 86400
   });
@@ -31,8 +30,8 @@ export const getUserById = async (req: Request, res: Response ) => {
 }
 
 export const registerUser = async (req: Request, res: Response ) => {
-  const { name, email, password, access, active } = req.body;
-  if(!name && !email && !password && !access && !active) {
+  const { name, email, password, isAdmin, active } = req.body;
+  if(!name && !email && !password && !isAdmin && !active) {
     return {status: 442, info: {message: 'Campos faltantes'}}
   }
 
@@ -40,17 +39,13 @@ export const registerUser = async (req: Request, res: Response ) => {
     name,
     email,
     password,
-    access,
+    isAdmin,
     active
   }
 
   try{
     const userRegist = await User.create(user);
-    return {status: 200, info: 
-      {
-        user,
-        token: generateToken({id: userRegist.id, access: userRegist.access})
-      }}
+    return {status: 200, info: user}
   }catch(err){
     return {status: 500, info: err }
   }
@@ -58,12 +53,12 @@ export const registerUser = async (req: Request, res: Response ) => {
 
 export const updateUser = async (req: Request, res: Response ) => {
   const id = req.params.id;
-  const { name, email, password, access, active } = req.body;
+  const { name, email, password, isAdmin, active } = req.body;
   const user = {
     name,
     email,
     password,
-    access,
+    isAdmin,
     active
   }
   try{
@@ -116,7 +111,7 @@ export const authenticateUser = async (req: Request, res: Response) => {
     return {status: 200, info: 
       {
         user,
-        token: generateToken({id: user.id, access: user.access})
+        token: generateToken({id: user.id, isAdmin: user.isAdmin})
       }}
  }catch(err){
   return {status: 500, info: err}

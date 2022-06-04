@@ -25,7 +25,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
         if (err) return res.status(401).json({ error: 'Failed to authenticate token.' });
         // se tudo estiver ok, salva no request para uso posterior
         req.params.userId = decoded.id;
-        req.params.userAccess = decoded.access;
+        req.params.userAdmin = decoded.isAdmin;
         next();
       });
   }catch(err){

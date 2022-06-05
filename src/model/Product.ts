@@ -1,14 +1,27 @@
 import mongoose from "mongoose";
-import Category from './Category'
+import Category from "./Category";
 
 const productSchema = new mongoose.Schema({
-  name: String,
-  description: String,
-  imageURL: String,
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  description: {
+    type: [String],
+    default: null
+  },
+  value: {
+    type: Number,
+    required: true
+  },
+  imageURL: {
+    type: String,
+  },
 
   //do jeito que esta sendo feito, teremos um objeto 
   //category dentro do product, ao inves do id diretamente.
-  category: Category,
+  category: String
 })
 
 const Product = mongoose.model('Product', productSchema);

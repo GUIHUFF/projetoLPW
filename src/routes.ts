@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { deleteUser, getUser, getUserById, createUser, updateUser, authenticateUser } from './controller/UserController';
 import auth from './auth';
 import { createCategory, deleteCategory, getCategory, getCategoryById, updateCategory } from './controller/CategoryController';
+import { createProduct, getProduct, getProductById } from './controller/ProductController';
 
 const router = Router();
 
@@ -103,6 +104,35 @@ router.patch('/category/:id', auth, async (req: Request, res: Response) => {
 router.delete('/category/:id', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await deleteCategory(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+// Product
+
+router.get('/product', async (req: Request, res: Response) => {
+  try{
+    const resposta = await getProduct(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.get('/product/:id', async (req: Request, res: Response) => {
+  try{
+    const resposta = await getProductById(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.post('/product', auth, async (req: Request, res: Response) => {
+  try{
+    const resposta = await createProduct(req, res);
     res.status(resposta.status).json( resposta.info );
   }catch(err){
       res.status(500).json({ erro: err });

@@ -1,12 +1,18 @@
 import mongoose from "mongoose";
-import Product from './Product';
 
 const orderSchema = new mongoose.Schema({
   table: Number,
-  stage: String,
-  itens: [Product],
-  name:  String,
-  status: Boolean,
+  itens: [String],
+  
+  client:  String,
+  inProgess: Boolean,
+  confirmation: Boolean,
+  isFinish: Boolean,
+  //Data in timestamp
+  createAt: {
+    type: Number,
+    autoCreatedAt: true
+  }
 })
 
 const Order = mongoose.model('Order', orderSchema);

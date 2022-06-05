@@ -3,7 +3,8 @@ import 'dotenv/config';
 import { deleteUser, getUser, getUserById, createUser, updateUser, authenticateUser } from './controller/UserController';
 import auth from './auth';
 import { createCategory, deleteCategory, getCategory, getCategoryById, updateCategory } from './controller/CategoryController';
-import { createProduct, getProduct, getProductById } from './controller/ProductController';
+import { createProduct, deleteProduct, getProduct, getProductById, updateProduct } from './controller/ProductController';
+import { createOrder, deleteOrder, getOrder, getOrderById, updateOrder } from './controller/OrderController';
 
 const router = Router();
 
@@ -133,6 +134,70 @@ router.get('/product/:id', async (req: Request, res: Response) => {
 router.post('/product', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await createProduct(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.patch('/product/:id', auth, async (req: Request, res: Response) => {
+  try{
+    const resposta = await updateProduct(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.delete('/product/:id', auth, async (req: Request, res: Response) => {
+  try{
+    const resposta = await deleteProduct(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+// Order
+router.get('/order/', async (req: Request, res: Response) => {
+  try{
+    const resposta = await getOrder(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.get('/order/:id', async (req: Request, res: Response) => {
+  try{
+    const resposta = await getOrderById(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.post('/order', auth, async (req: Request, res: Response) => {
+  try{
+    const resposta = await createOrder(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.patch('/order/:id', auth, async (req: Request, res: Response) => {
+  try{
+    const resposta = await updateOrder(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
+
+router.delete('/order/:id', auth, async (req: Request, res: Response) => {
+  try{
+    const resposta = await deleteOrder(req, res);
     res.status(resposta.status).json( resposta.info );
   }catch(err){
       res.status(500).json({ erro: err });

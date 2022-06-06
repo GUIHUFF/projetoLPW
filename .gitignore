@@ -1,5 +1,6 @@
 /node_modules
-/data/db/*
+/data
 # Keep environment variables out of version control
 .env
 
+Makefile

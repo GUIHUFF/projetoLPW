@@ -15,8 +15,6 @@ app.use(cors());
 //conect com db
 connectDB();
 
-app.use(router);
-
 app.use((err: Error, req: Request, res: Response, next: NextFunction)=>{
   if(err instanceof Error){
     //Se é instancia do tipo erro
@@ -32,7 +30,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction)=>{
 });
 
 app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'not request'});
+  res.json({ message: 'not request found'});
 })
+
+app.use(router);
 
 app.listen(process.env.API_PORT || 1333, () => console.log('Server Online'));

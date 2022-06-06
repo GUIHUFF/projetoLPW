@@ -1,18 +1,25 @@
-version: '3.1'
+version: '3'
 
 services:
   mongoDB:
-    image: mongo:4.2
+    image: mongo:5.0
     container_name: mongoDB
     restart: always
     ports:
       - ${DB_PORT_LOCAL}:27017
     networks:
-      - rede
+      - redeapi
+    volumes:
+      - mongodata:/data/db
     environment:
       MONGO_INITDB_DATABASE: ${DB_NAME}
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "2"
   
   api:
     build: .
@@ -27,22 +34,40 @@ services:
     ports:
       - ${API_PORT}:${API_PORT}
     networks:
-      - rede
+      - redeapi
     volumes:
       - .:/usr/src/app
     working_dir: /usr/src/app
     command: yarn dev
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "2"
 
 networks:
-  rede:
+  redeapi:
     driver: bridge
+
+volumes:
+  mongodata:
+    
+#SOMENTE O MONGO
+# version: '3'
+
+# services:
   # mongodb:
   #     image: mongo:4.2
   #     container_name: mongodb
   #     restart: always
   #     ports:
   #       - ${DB_PORT_LOCAL}:27017
+  #     volumes:
+  #       - mongodata:/data/db
   #     environment:
   #       MONGO_INITDB_DATABASE: ${DB_NAME}
   #       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
   #       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+
+# volumes:
+#   mongodata:

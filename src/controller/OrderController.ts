@@ -31,6 +31,7 @@ export const getOrderProductById = async (req: Request, res: Response ) => {
       itensObject.push(product);
     }
     const order = {
+      _id,
       table,
       itensObject,
       client,

@@ -1,5 +1,6 @@
 import Order from '../model/Order';
 import { Request, Response } from 'express';
+import Product from '../model/Product';
 
 export const getOrder = async (req: Request, res: Response ) => {
   try{
@@ -14,6 +15,31 @@ export const getOrderById = async (req: Request, res: Response ) => {
   const id = req.params.id;
   try{
     const order = await Order.findById(id);
+    return {status: 200, info: order}
+  }catch(err){
+    return {status: 404, info: {mesage: 'Product not found!'} }
+  }
+}
+
+export const getOrderProductById = async (req: Request, res: Response ) => {
+  const id = req.params.id;
+  try{
+    const { _id, confirmation, table, itens, client, inProgess, isFinish, isPaid, createAt} = await Order.findById(id);
+    let itensObject = [];
+    for(let i in itens){
+      const product = await Product.findById(itens[i]);
+      itensObject.push(product);
+    }
+    const order = {
+      table,
+      itensObject,
+      client,
+      inProgess,
+      confirmation,
+      isFinish,
+      isPaid,
+      createAt
+    }
     return {status: 200, info: order}
   }catch(err){
     return {status: 404, info: {mesage: 'Product not found!'} }

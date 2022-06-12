@@ -34,6 +34,7 @@ export const createOrder = async (req: Request, res: Response ) => {
     inProgess: false,
     confirmation: false,
     isFinish: false,
+    isPaid: false,
     createAt
   }
   
@@ -47,7 +48,7 @@ export const createOrder = async (req: Request, res: Response ) => {
   
 export const updateOrder = async (req: Request, res: Response ) => {
   const id = req.params.id;
-  const { table, itens, client, inProgess, confirmation, isFinish  } = req.body;
+  const { table, itens, client, inProgess, confirmation, isFinish, isPaid  } = req.body;
   const order = {
     table,
     itens,
@@ -55,6 +56,7 @@ export const updateOrder = async (req: Request, res: Response ) => {
     inProgess,
     confirmation,
     isFinish,
+    isPaid,
   }
   try{
     const orderUpdate = await Order.updateOne({_id: id}, order);

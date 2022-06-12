@@ -24,7 +24,7 @@ export const getOrderById = async (req: Request, res: Response ) => {
 export const getOrderProductById = async (req: Request, res: Response ) => {
   const id = req.params.id;
   try{
-    const { _id, confirmation, table, itens, client, inProgess, isFinish, isPaid, createAt} = await Order.findById(id);
+    const { _id, confirmation, table, itens, client, inProgess, isFinish, isPaid, createAt } = await Order.findById(id);
     let itensObject = [];
     for(let i in itens){
       const product = await Product.findById(itens[i]);

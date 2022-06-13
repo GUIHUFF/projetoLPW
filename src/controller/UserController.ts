@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import 'dotenv';
 
 const generateToken = (params = {}) => {
-  return jwt.sign(params, `${process.env.DEV_HASH}`, {
+  return jwt.sign(params, `${process.env.API_HASH}`, {
     expiresIn: 86400
   });
 }

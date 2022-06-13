@@ -21,7 +21,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).send({ error: 'Token malformatted' });
   }
   try {
-    jwt.verify(token, `${process.env.DEV_HASH}`, function(err: any, decoded: any) {
+    jwt.verify(token, `${process.env.API_HASH}`, function(err: any, decoded: any) {
         if (err) return res.status(401).json({ error: 'Failed to authenticate token.' });
         // se tudo estiver ok, salva no request para uso posterior
         req.params.userId = decoded.id;

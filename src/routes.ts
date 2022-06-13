@@ -19,7 +19,7 @@ router.post('/authenticate', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/user', async (req: Request, res: Response) => {
+router.get('/user', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await getUser(req, res);
     res.status(resposta.status).json( resposta.info);
@@ -28,7 +28,7 @@ router.get('/user', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/user/:id', async (req: Request, res: Response) => {
+router.get('/user/:id', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await getUserById(req, res);
     res.status(resposta.status).json( resposta.info );
@@ -37,7 +37,7 @@ router.get('/user/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/user', async (req: Request, res: Response) => {
+router.post('/user', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await createUser(req, res);
     res.status(resposta.status).json( resposta.info );
@@ -66,7 +66,7 @@ router.delete('/user/:id', auth, async (req: Request, res: Response) => {
 
 //CATEGORY
 
-router.get('/category', async (req: Request, res: Response) => {
+router.get('/category', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await getCategory(req, res);
     res.status(resposta.status).json( resposta.info );
@@ -168,7 +168,7 @@ router.delete('/product/:id', auth, async (req: Request, res: Response) => {
 });
 
 // Order
-router.get('/order/', async (req: Request, res: Response) => {
+router.get('/order/', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await getOrder(req, res);
     res.status(resposta.status).json( resposta.info );
@@ -177,7 +177,7 @@ router.get('/order/', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/order/:id', async (req: Request, res: Response) => {
+router.get('/order/:id', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await getOrderById(req, res);
     res.status(resposta.status).json( resposta.info );
@@ -186,7 +186,7 @@ router.get('/order/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/orderAll/:id', async (req: Request, res: Response) => {
+router.get('/orderAll/:id', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await getOrderProductById(req, res);
     res.status(resposta.status).json( resposta.info );

@@ -35,4 +35,4 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use(router);
 
-app.listen(process.env.API_PORT || 1337, () => console.log('Server Online'));
+app.listen(process.env.PORT || 1337, () => console.log('Server Online'));

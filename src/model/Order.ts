@@ -8,6 +8,7 @@ const orderSchema = new mongoose.Schema({
   inProgess: Boolean,
   confirmation: Boolean,
   isFinish: Boolean,
+  isPaid: Boolean,
   //Data in timestamp
   createAt: {
     type: Number,

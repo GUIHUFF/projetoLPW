@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { deleteUser, getUser, getUserById, createUser, updateUser, authenticateUser } from './controller/UserController';
 import auth from './auth';
 import { createCategory, deleteCategory, getCategory, getCategoryById, updateCategory } from './controller/CategoryController';
-import { createProduct, deleteProduct, getProduct, getProductById, getProductCategoryById, updateProduct } from './controller/ProductController';
+import { createProduct, deleteProduct, gerProductByCategory, getProduct, getProductById, getProductCategoryById, updateProduct } from './controller/ProductController';
 import { createOrder, deleteOrder, getOrder, getOrderById, updateOrder, getOrderProductById } from './controller/OrderController';
 
 const router = Router();
@@ -139,6 +139,15 @@ router.get('/productAll/:id', async (req: Request, res: Response) => {
       res.status(500).json({ erro: err });
   }
 }); 
+
+router.get('/productCategory/:id', async (req: Request, res: Response) => {
+  try{
+    const resposta = await gerProductByCategory(req, res);
+    res.status(resposta.status).json( resposta.info );
+  }catch(err){
+      res.status(500).json({ erro: err });
+  }
+});
 
 router.post('/product', auth, async (req: Request, res: Response) => {
   try{

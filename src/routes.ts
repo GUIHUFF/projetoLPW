@@ -66,7 +66,7 @@ router.delete('/user/:id', auth, async (req: Request, res: Response) => {
 
 //CATEGORY
 
-router.get('/category', auth, async (req: Request, res: Response) => {
+router.get('/category', async (req: Request, res: Response) => {
   try{
     const resposta = await getCategory(req, res);
     res.status(resposta.status).json( resposta.info );

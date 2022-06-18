@@ -37,7 +37,7 @@ router.get('/user/:id', auth, async (req: Request, res: Response) => {
   }
 });
 
-router.post('/user', async (req: Request, res: Response) => {
+router.post('/user', auth, async (req: Request, res: Response) => {
   try{
     const resposta = await createUser(req, res);
     res.status(resposta.status).json( resposta.info );
